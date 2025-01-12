@@ -4,7 +4,7 @@
 // This is also where we define functions to modify the state.
 
 // TODO: Add support for more colors
-const colors = ["red", "green", "blue"];
+const colors = ["red", "green", "blue", "orange", "purple"];
 const sizes = ["small", "medium", "large"];
 const maxShapes = 10;
 const shapes = [
@@ -23,7 +23,7 @@ function addShape() {
   const color = colors[Math.floor(Math.random() * colors.length)];
 
   // TODO: Randomize the size of the shape
-  const size = "small";
+  const size = sizes[Math.floor(Math.random() * sizes.length)];
 
   shapes.push({ color, size });
 }
@@ -44,7 +44,15 @@ function render() {
   squareList.replaceChildren(...squareElements);
 
   // TODO: Render the circles
+  const circleList = document.querySelector("#circles");
+  const circleElements = shapes.map((shape) => {
+    const circleElement = document.createElement("li");
+    circleElement.classList.add(shape.color, shape.size);
+    return circleElement;
+  });
+  circleList.replaceChildren(...circleElements);
 }
+
 
 // === Script ===
 // In this section, we call the functions that we've defined above.
@@ -55,7 +63,9 @@ function render() {
 const addShapeIntervalId = setInterval(() => {
   addShape();
   render();
-
+  if(shapes.length >= maxShapes){
+    clearInterval(addShapeIntervalId)
+  }
   // TODO: Stop adding shapes if we've reached the maximum number of shapes
 }, 1000);
 
